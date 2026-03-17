@@ -1,0 +1,28 @@
+@use "../../app/styles/variables.scss" as *;
+
+.header {
+  width: 100%;
+  height: 100px;
+  background-color: $color-surface-light;
+  border-bottom: 2px solid rgba($color-line, 0.1);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 50px;
+}
+
+.logo {
+  margin: 0 auto;
+  color: $color-text-main;
+  font-size: 64px;
+}
+
+.adminBtn {
+  color: $color-text-main;
+  width: 70px;
+  height: 40px;
+  background: $color-green;
+}
