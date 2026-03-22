@@ -1,0 +1,51 @@
+@use "../../app/styles/variables.scss" as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  margin: 100px 0 0 80px;
+  gap: 92px;
+
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 300px;
+    top: 35px;
+    bottom: 35px;
+    width: 70px;
+    border: 2px solid white;
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+  }
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  padding: 0 48px;
+  width: 300px;
+  height: 70px;
+  background-color: $color-cards;
+  color: $color-text-main;
+  font-size: 48px;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+.teamRow {
+  display: flex;
+  width: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
+.score {
+  position: absolute;
+  right: 0;
+  width: 80px;
+  height: 70px;
+  background-color: $color-green;
+  border-radius: 0 10px 10px 0;
+}

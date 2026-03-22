@@ -1,5 +1,6 @@
 import { Header } from "../../widgets/header/Header";
 import { MatchCard } from "../../entities/match/MatchCard";
+import { MatchCardEmpty } from "../../entities/matchempty/MatchCardEmpty";
 import styles from "./Main.module.scss";
 
 const allTeams = [
@@ -16,7 +17,12 @@ export const Main = () => {
       <Header />
 
       <main className={styles.content}>
-        <MatchCard team1={filteredTeams[0]} team2={filteredTeams[1]} />
+        <div className={styles.round}>
+          <MatchCard team1={filteredTeams[0]} team2={filteredTeams[1]} />
+        </div>
+        <div className={styles.round}>
+          <MatchCardEmpty />
+        </div>
       </main>
     </div>
   );
