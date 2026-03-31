@@ -1,9 +1,9 @@
 import { Header } from "../../widgets/header/Header";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Admin.module.scss";
+import styles from "./AdminLogin.module.scss";
 
-export const Admin = () => {
+export const AdminLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export const Admin = () => {
     e.preventDefault();
 
     if (username === "admin" && password === "admin123") {
-      navigate("/");
+      navigate("/admin/pages");
     } else {
       alert("Invalid username or password. Please try again.");
     }

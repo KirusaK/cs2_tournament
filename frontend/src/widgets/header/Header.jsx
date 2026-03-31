@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 
-export const Header = () => {
+export const Header = ({ isAdmin = false }) => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <a href="/" className={styles.logo}>
-          CS2 TOURNAMENT
+        <a href={isAdmin ? "/admin/pages" : "/"} className={styles.logo}>
+          {isAdmin ? "ADMIN PANEL" : "CS2 TOURNAMENT"}
         </a>
-        <Link to="/admin" className={styles.adminBtn}>
-          Admin
-        </Link>
+        {!isAdmin && (
+          <Link to="/admin" className={styles.adminBtn}>
+            Admin
+          </Link>
+        )}
       </nav>
     </header>
   );

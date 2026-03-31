@@ -1,0 +1,28 @@
+@use "../../app/styles/variables.scss" as *;
+
+.main {
+  margin: 50px;
+
+  &__Button {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  & hr {
+    color: $color-line;
+  }
+
+  &__Button button {
+    width: 250px;
+    height: 40px;
+    color: $color-text-main;
+    background-color: $color-green;
+    margin-bottom: 30px;
+    font-weight: 700;
+  }
+
+  &__Title {
+    color: $color-text-main;
+    margin: 30px 0;
+  }
+}
