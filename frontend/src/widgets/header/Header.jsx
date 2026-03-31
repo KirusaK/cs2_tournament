@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 
 export const Header = () => {
@@ -7,7 +8,9 @@ export const Header = () => {
         <a href="/" className={styles.logo}>
           CS2 TOURNAMENT
         </a>
-        <button className={styles.adminBtn}>Admin</button>
+        <Link to="/admin" className={styles.adminBtn}>
+          Admin
+        </Link>
       </nav>
     </header>
   );
