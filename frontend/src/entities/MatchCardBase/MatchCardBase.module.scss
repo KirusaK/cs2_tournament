@@ -3,22 +3,10 @@
 .card {
   display: flex;
   flex-direction: column;
-  margin: 100px 0 0 80px;
+  margin: 0;
   gap: 92px;
 
   position: relative;
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 300px;
-    top: 35px;
-    bottom: 35px;
-    width: 70px;
-    border: 2px solid white;
-    border-left: none;
-    border-radius: 0 10px 10px 0;
-  }
 }
 
 .team {

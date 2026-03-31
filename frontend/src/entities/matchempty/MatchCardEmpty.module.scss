@@ -1,21 +1,23 @@
 @use "../MatchCardBase/MatchCardBase.module.scss";
 
 .cards {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-
   position: relative;
-  top: -150px;
-  left: -100px;
+  z-index: 20;
+}
 
-  &::before {
-    content: "";
-    position: absolute;
-    left: 550px;
-    top: 35px;
-    width: 70px;
-    height: 1px;
-    background-color: white;
-  }
+.cards:not(.last)::after {
+  content: "";
+  position: absolute;
+  left: -130px;
+  top: calc(50% - var(--line-height) / 2);
+  height: var(--line-height);
+  width: 80px;
+  border: 2px solid white;
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  z-index: 15;
+}
+
+.cards * {
+  z-index: auto;
 }
