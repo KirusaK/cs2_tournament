@@ -53,11 +53,16 @@
   }
 }
 
-.loginButton {
-  width: 150px;
-  height: 40px;
-  margin: 20px 0;
-  background-color: $color-green;
-  color: $color-text-main;
-  font-weight: 700;
+.login {
+  display: flex;
+  justify-content: center;
+
+  &__Button {
+    width: 150px;
+    height: 40px;
+    margin: 20px 0;
+    background-color: $color-green;
+    color: $color-text-main;
+    font-weight: 700;
+  }
 }
