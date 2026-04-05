@@ -25,4 +25,22 @@
     color: $color-text-main;
     margin: 30px 0;
   }
+
+  &__Exit {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__ExitLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 40px;
+    background-color: $color-green;
+    border: 1px solid black;
+    border-radius: 10px;
+    color: $color-text-main;
+    font-weight: 700;
+  }
 }

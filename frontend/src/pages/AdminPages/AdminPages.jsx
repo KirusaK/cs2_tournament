@@ -1,6 +1,7 @@
 import { PlayersList } from "../../features/admin-panel/PlayersList/PlayersList";
 import { TeamList } from "../../features/admin-panel/TeamList/TeamList";
 import { Header } from "../../widgets/header/Header";
+import { Link } from "react-router-dom";
 import styles from "./AdminPages.module.scss";
 
 export const AdminPages = () => {
@@ -20,6 +21,11 @@ export const AdminPages = () => {
           <PlayersList />
           <hr />
           <TeamList />
+          <div className={styles.main__Exit}>
+            <Link to="/" className={styles.main__ExitLink}>
+              <span>Exit</span>
+            </Link>
+          </div>
         </div>
       </main>
     </div>
