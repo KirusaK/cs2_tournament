@@ -43,5 +43,10 @@
     border-radius: 10px;
     color: $color-text-main;
     font-weight: 700;
+    transition: transform 0.3s ease;
+  }
+
+  &__ExitLink:hover {
+    transform: scale(1.1);
   }
 }

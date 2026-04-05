@@ -1,16 +1,16 @@
-@use "../../../app/styles/variables.scss" as *;
+@use "../../app/styles/variables.scss" as *;
 
 .overlay {
-  position: fixed; // Фиксируем относительно экрана, а не страницы
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); // Затемнение
-  backdrop-filter: blur(8px); // Размытие всего, что под этим слоем
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
   display: flex;
-  justify-content: center; // Центрируем форму по горизонтали
-  align-items: center; // Центрируем форму по вертикали
+  justify-content: center;
+  align-items: center;
   z-index: 1000;
 }
 
