@@ -19,6 +19,38 @@ app.get("/api/teams", async (req, res) => {
   }
 });
 
+app.post("/api/teams", async (req, res) => {
+  try {
+    const { name } = req.body;
+    const newTeam = await pool.query(
+      "INSERT INTO Teams (name) VALUES ($1) RETURNING *",
+      [name],
+    );
+    res.json(newTeam.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Błąd podczas dodawania zespołu" });
+  }
+});
+
+app.delete("/api/teams/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteTeam = await pool.query("DELETE FROM Teams WHERE id = $1", [
+      id,
+    ]);
+
+    if (deleteTeam.rowCount === 0) {
+      return res.status(404).json({ message: "Nie znaleziono zespołu" });
+    }
+
+    res.json({ message: "Zespół został pomyślnie usunięty!" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ err: "Błąd serwera podczas usuwania" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`The server took off on the port ${PORT}`);
 });

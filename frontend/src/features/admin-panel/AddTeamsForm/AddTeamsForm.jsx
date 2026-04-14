@@ -1,7 +1,33 @@
+import { useState } from "react";
 import styles from "../ModalForm.module.scss";
 
 export const AddTeamsForm = (props) => {
-  const { onClose } = props;
+  const [teamName, setTeamName] = useState("");
+
+  const { onClose, onTeamAdded } = props;
+
+  const handleAddTeam = async () => {
+    const url = "http://localhost:5000/api/teams";
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: teamName }),
+      });
+      if (response.ok) {
+        console.log("Team saved!");
+        setTeamName("");
+
+        if (onTeamAdded) onTeamAdded();
+
+        onClose();
+      } else {
+        console.log("Server error!");
+      }
+    } catch (err) {
+      console.error("Network error:", err);
+    }
+  };
 
   return (
     <div className={styles.overlay}>
@@ -26,11 +52,18 @@ export const AddTeamsForm = (props) => {
                 type="text"
                 placeholder="Enter team name..."
                 className={styles.AddPlayerForm__InputField}
+                value={teamName}
+                onChange={(e) => setTeamName(e.target.value)}
               />
             </div>
           </div>
           <div className={styles.AddPlayerForm__ButtonWrapper}>
-            <button className={styles.AddPlayerForm__Button}>ADD TEAM</button>
+            <button
+              className={styles.AddPlayerForm__Button}
+              onClick={handleAddTeam}
+            >
+              ADD TEAM
+            </button>
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 CREATE TABLE Teams (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(100) NOT NULL,
-	tag VARCHAR(10) UNIQUE
+	name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Players (
@@ -28,4 +27,6 @@ INSERT INTO Players (nickname, country, team_id) VALUES ('Niko', 'Bosnia', 1);
 
 SELECT p.nickname, p.country, t.name AS team_name FROM Players p JOIN Teams t ON p.team_id = t.id;
 
+SELECT * FROM Teams;
 
+ALTER TABLE Teams DROP COLUMN tag;
