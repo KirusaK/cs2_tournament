@@ -77,7 +77,10 @@ export const AdminPages = () => {
           </div>
 
           {isPlayerModalOpen && (
-            <AddPlayerForm onClose={() => setIsPlayerModalOpen(false)} />
+            <AddPlayerForm
+              onClose={() => setIsPlayerModalOpen(false)}
+              onPlayerAdded={fetchTeams}
+            />
           )}
 
           {isTeamModalOpen && (
@@ -91,6 +94,8 @@ export const AdminPages = () => {
           <h1 className={styles.main__Title}>Players List</h1>
           <PlayersList />
           <hr />
+          <h1 className={styles.main__Title}>Team List</h1>
+
           <TeamList teams={teams} onDeleteTeam={deleteTeam} />
           <div className={styles.main__Exit}>
             <Link to="/" className={styles.main__ExitLink}>

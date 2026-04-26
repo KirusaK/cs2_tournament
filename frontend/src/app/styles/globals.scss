@@ -9,6 +9,7 @@
 
 body {
   background-color: $color-surface;
+  font-family: "Times New Roman", sans-serif !important;
 }
 
 button {
@@ -28,4 +29,9 @@ button:hover {
 
 input {
   outline: none;
+}
+
+Link,
+a {
+  text-decoration: none !important;
 }

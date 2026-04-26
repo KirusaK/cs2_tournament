@@ -8,6 +8,7 @@ export const TeamList = (props) => {
       <div className={styles.TeamList__Header}>
         <h1>ID</h1>
         <h1>Team Name</h1>
+        <h1>Status</h1>
       </div>
       <div className={styles.TeamList__Content}>
         {teams && teams.length > 0 ? (
@@ -15,6 +16,17 @@ export const TeamList = (props) => {
             <div key={team.id} className={styles.TeamRow}>
               <h2>{team.id}</h2>
               <h2>{team.name}</h2>
+
+              <h2
+                className={
+                  Number(team.player_count) >= 5 ? styles.full : styles.notFull
+                }
+              >
+                {Number(team.player_count) >= 5
+                  ? "✅ Full"
+                  : `${team.player_count}/5`}
+              </h2>
+
               <button
                 className={styles.TeamList__button}
                 onClick={() => onDeleteTeam(team.id)}

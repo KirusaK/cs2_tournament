@@ -19,6 +19,12 @@
         width: 100px;
       }
     }
+
+    h1 {
+      &:last-child {
+        margin-left: 50px;
+      }
+    }
   }
 
   &__Content {
@@ -55,4 +61,15 @@
     font-weight: 600;
     margin-left: auto;
   }
+}
+
+.full {
+  color: #2ecc71;
+  font-weight: bold;
+  padding-left: 165px;
+}
+
+.notFull {
+  color: #f39c12;
+  padding-left: 170px;
 }

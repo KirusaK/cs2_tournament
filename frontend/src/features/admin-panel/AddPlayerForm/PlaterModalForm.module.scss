@@ -1,0 +1,13 @@
+@use "../../../app//styles/variables.scss" as *;
+
+.myBlurBackdrop {
+  backdrop-filter: blur(50px);
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.AddPlayerForm__button {
+  transition: transform 0.3s ease !important;
+  width: 250px;
+  background-color: $color-green !important;
+  border: none !important;
+}

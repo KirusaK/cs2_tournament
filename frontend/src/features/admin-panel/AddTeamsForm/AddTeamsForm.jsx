@@ -1,5 +1,6 @@
 import { useState } from "react";
-import styles from "../ModalForm.module.scss";
+import { Modal, Button, Form } from "react-bootstrap";
+import styles from "./TeamsModalForm.module.scss";
 
 export const AddTeamsForm = (props) => {
   const [teamName, setTeamName] = useState("");
@@ -30,43 +31,44 @@ export const AddTeamsForm = (props) => {
   };
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.AddPlayerForm}>
-        <div className={styles.AddPlayerForm__Wrapper}>
-          <div className={styles.AddPlayerForm__Header}>
-            <h1 className={styles.AddPlayerForm__Title}>Add Team</h1>
-            <svg
-              width={24}
-              height={24}
-              className={styles.AddPlayerForm__Close}
-              onClick={onClose}
-            >
-              <use href="/assets/icons/symbol-defs.svg#icon-cross"></use>
-            </svg>
-          </div>
-          <hr />
-          <div className={styles.AddPlayerForm__Input}>
-            <div className={styles.AddPlayerForm__InputWrapper}>
-              <label className={styles.AddPlayerForm__Label}>Team name</label>
-              <input
-                type="text"
-                placeholder="Enter team name..."
-                className={styles.AddPlayerForm__InputField}
-                value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className={styles.AddPlayerForm__ButtonWrapper}>
-            <button
-              className={styles.AddPlayerForm__Button}
-              onClick={handleAddTeam}
-            >
-              ADD TEAM
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Modal
+      show={true}
+      onHide={onClose}
+      centered
+      backdropClassName={styles.myBlurBackdrop}
+    >
+      <Modal.Header
+        closeButton
+        style={{
+          backgroundColor: "#1e2946",
+          color: "white",
+          borderBottom: "1.6px solid #D9D9D9",
+        }}
+      >
+        <Modal.Title>Add Team</Modal.Title>
+      </Modal.Header>
+      <Modal.Body style={{ backgroundColor: "#1e2946", color: "white" }}>
+        <Form>
+          <Form.Label>Team name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter team name..."
+            value={teamName}
+            onChange={(e) => setTeamName(e.target.value)}
+          />
+        </Form>
+      </Modal.Body>
+      <Modal.Footer
+        style={{
+          backgroundColor: "#1e2946",
+          borderTop: "none",
+          justifyContent: "center",
+        }}
+      >
+        <Button onClick={handleAddTeam} className={styles.AddTeamsForm__button}>
+          ADD TEAM
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
