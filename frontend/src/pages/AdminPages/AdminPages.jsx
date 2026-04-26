@@ -11,6 +11,7 @@ export const AdminPages = () => {
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [teams, setTeams] = useState([]);
+  const [players, setPlayers] = useState([]);
 
   const togglePlayerModal = () => {
     setIsPlayerModalOpen(!isPlayerModalOpen);
@@ -18,6 +19,16 @@ export const AdminPages = () => {
 
   const toggleTeamModal = () => {
     setIsTeamModalOpen(!isTeamModalOpen);
+  };
+
+  const fetchPlayers = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/players");
+      const data = await response.json();
+      setPlayers(data);
+    } catch (err) {
+      console.error("Error loading players:", err);
+    }
   };
 
   const fetchTeams = async () => {
@@ -62,6 +73,7 @@ export const AdminPages = () => {
     };
 
     fetchTeams();
+    fetchPlayers();
   }, []);
 
   return (
@@ -79,7 +91,7 @@ export const AdminPages = () => {
           {isPlayerModalOpen && (
             <AddPlayerForm
               onClose={() => setIsPlayerModalOpen(false)}
-              onPlayerAdded={fetchTeams}
+              onPlayerAdded={fetchPlayers}
             />
           )}
 
@@ -92,7 +104,7 @@ export const AdminPages = () => {
 
           <hr />
           <h1 className={styles.main__Title}>Players List</h1>
-          <PlayersList />
+          <PlayersList players={players} />
           <hr />
           <h1 className={styles.main__Title}>Team List</h1>
 

@@ -1,3 +1,4 @@
+
 CREATE TABLE Teams (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL
@@ -6,7 +7,6 @@ CREATE TABLE Teams (
 CREATE TABLE Players (
 	id SERIAL PRIMARY KEY,
 	nickname VARCHAR(50) NOT NULL,
-	country VARCHAR(50) NOT NULL,
 	team_id INT REFERENCES Teams(id)
 );
 
@@ -27,6 +27,6 @@ INSERT INTO Players (nickname, country, team_id) VALUES ('Niko', 'Bosnia', 1);
 
 SELECT p.nickname, p.country, t.name AS team_name FROM Players p JOIN Teams t ON p.team_id = t.id;
 
-SELECT * FROM Teams;
+SELECT * FROM Players;
 
-ALTER TABLE Teams DROP COLUMN tag;
+ALTER TABLE Players DROP COLUMN country;

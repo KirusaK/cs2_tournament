@@ -1,6 +1,8 @@
 import styles from "./PlayersList.module.scss";
 
-export const PlayersList = () => {
+export const PlayersList = (props) => {
+  const { players } = props;
+
   return (
     <div className={styles.playersList}>
       <div className={styles.playersList__Header}>
@@ -9,9 +11,17 @@ export const PlayersList = () => {
         <h1>Team</h1>
       </div>
       <div className={styles.playersList__Content}>
-        <h2>1</h2>
-        <h2>s1mple</h2>
-        <h2>Navi</h2>
+        {players && players.length > 0 ? (
+          players.map((player) => (
+            <div key={player.id} className={styles.PlayersRow}>
+              <h1>{player.id}</h1>
+              <h1>{player.nickname}</h1>
+              <h1>{player.teamName}</h1>
+            </div>
+          ))
+        ) : (
+          <h1>No players added yet</h1>
+        )}
       </div>
     </div>
   );
