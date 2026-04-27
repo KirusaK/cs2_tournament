@@ -10,7 +10,7 @@ import styles from "./AdminPages.module.scss";
 export const AdminPages = () => {
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
-  const [teams, setTeams] = useState([]);
+  const [teams, setTeams] = useState(null);
   const [players, setPlayers] = useState([]);
 
   const togglePlayerModal = () => {
@@ -92,7 +92,10 @@ export const AdminPages = () => {
           {isPlayerModalOpen && (
             <AddPlayerForm
               onClose={() => setIsPlayerModalOpen(false)}
-              onPlayerAdded={fetchPlayers}
+              onPlayerAdded={() => {
+                fetchPlayers();
+                fetchTeams();
+              }}
             />
           )}
 

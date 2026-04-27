@@ -23,8 +23,7 @@ CREATE TABLE Matches (
 	next_match_id INT REFERENCES Matches(id)
 );
 
-INSERT INTO TEAMS (name, tag) VALUES ('NAVI', 'NAVI');
-INSERT INTO Players (nickname, country, team_id) VALUES ('Niko', 'Bosnia', 1);
+
 
 SELECT p.nickname, p.country, t.name AS team_name FROM Players p JOIN Teams t ON p.team_id = t.id;
 

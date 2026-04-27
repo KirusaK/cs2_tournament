@@ -36,7 +36,7 @@ export const TeamList = (props) => {
             </div>
           ))
         ) : (
-          <p>Loading teams...</p>
+          <h1 style={{ color: "white" }}>Nie ma jeszcze żadnych zespołów</h1>
         )}
       </div>
     </div>
