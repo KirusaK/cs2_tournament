@@ -3,7 +3,8 @@
 .TeamList {
   margin: 35px 0;
 
-  &__Header {
+  &__Header,
+  .TeamRow {
     display: flex;
     align-items: center;
     padding: 0 30px;
@@ -15,14 +16,16 @@
     margin-bottom: 10px;
 
     h1 {
-      &:first-child {
-        width: 100px;
-      }
-    }
+      margin: 0;
 
-    h1 {
-      &:last-child {
-        margin-left: 50px;
+      &:nth-child(1) {
+        width: 80px;
+      }
+      &:nth-child(2) {
+        width: 250px;
+      }
+      &:nth-child(3) {
+        flex: 1;
       }
     }
   }
@@ -31,26 +34,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
-
-  .TeamRow {
-    display: flex;
-    align-items: center;
-    padding: 0 30px;
-    background-color: $color-header-player-list;
-    color: $color-text-main;
-    height: 50px;
-    border: 1px solid black;
-    border-radius: 5px;
-
-    h2 {
-      margin: 0;
-      font-weight: 700;
-
-      &:first-child {
-        width: 100px;
-      }
-    }
   }
 
   &__button {
@@ -66,10 +49,8 @@
 .full {
   color: #2ecc71;
   font-weight: bold;
-  padding-left: 165px;
 }
 
 .notFull {
   color: #f39c12;
-  padding-left: 170px;
 }

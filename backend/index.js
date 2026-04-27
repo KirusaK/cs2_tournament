@@ -42,11 +42,11 @@ app.post("/api/teams", async (req, res) => {
 app.delete("/api/teams/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteTeam = await pool.query("DELETE FROM Teams WHERE id = $1", [
+    const deleteResult = await pool.query("DELETE FROM Teams WHERE id = $1", [
       id,
     ]);
 
-    if (deleteTeam.rowCount === 0) {
+    if (deleteResult.rowCount === 0) {
       return res.status(404).json({ message: "Nie znaleziono zespołu" });
     }
 

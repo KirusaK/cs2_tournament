@@ -20,7 +20,7 @@ export const PlayersList = (props) => {
             </div>
           ))
         ) : (
-          <h1>No players added yet</h1>
+          <h1 style={{ color: "white" }}>No players added yet</h1>
         )}
       </div>
     </div>

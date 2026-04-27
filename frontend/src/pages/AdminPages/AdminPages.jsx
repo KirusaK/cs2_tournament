@@ -56,6 +56,7 @@ export const AdminPages = () => {
         if (response.ok) {
           console.log("Team deleted!");
           fetchTeams();
+          fetchPlayers();
         } else {
           alert("Błąd podczas usuwania komendy na serwerze");
         }

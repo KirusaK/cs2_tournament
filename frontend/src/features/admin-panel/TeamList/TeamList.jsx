@@ -14,10 +14,10 @@ export const TeamList = (props) => {
         {teams && teams.length > 0 ? (
           teams.map((team) => (
             <div key={team.id} className={styles.TeamRow}>
-              <h2>{team.id}</h2>
-              <h2>{team.name}</h2>
+              <h1>{team.id}</h1>
+              <h1>{team.name}</h1>
 
-              <h2
+              <h1
                 className={
                   Number(team.player_count) >= 5 ? styles.full : styles.notFull
                 }
@@ -25,7 +25,7 @@ export const TeamList = (props) => {
                 {Number(team.player_count) >= 5
                   ? "✅ Full"
                   : `${team.player_count}/5`}
-              </h2>
+              </h1>
 
               <button
                 className={styles.TeamList__button}

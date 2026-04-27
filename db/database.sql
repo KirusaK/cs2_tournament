@@ -1,4 +1,5 @@
 
+
 CREATE TABLE Teams (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL
@@ -27,6 +28,10 @@ INSERT INTO Players (nickname, country, team_id) VALUES ('Niko', 'Bosnia', 1);
 
 SELECT p.nickname, p.country, t.name AS team_name FROM Players p JOIN Teams t ON p.team_id = t.id;
 
-SELECT * FROM Players;
+SELECT * FROM Te;
 
 ALTER TABLE Players DROP COLUMN country;
+
+ALTER TABLE Players DROP CONSTRAINT IF EXISTS players_team_id_fkey;
+
+ALTER TABLE Players ADD CONSTRAINT players_team_id_fkey FOREIGN KEY (team_id) REFERENCES Teams(id) ON DELETE CASCADE;
