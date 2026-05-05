@@ -1,7 +1,7 @@
 import { PlayersList } from "../../features/admin-panel/PlayersList/PlayersList";
 import { TeamList } from "../../features/admin-panel/TeamList/TeamList";
 import { Header } from "../../widgets/header/Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AddPlayerForm } from "../../features/admin-panel/AddPlayerForm/AddPlayerForm";
 import { useState, useEffect } from "react";
 import { AddTeamsForm } from "../../features/admin-panel/AddTeamsForm/AddTeamsForm";
@@ -12,6 +12,8 @@ export const AdminPages = () => {
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [teams, setTeams] = useState(null);
   const [players, setPlayers] = useState([]);
+
+  const navigate = useNavigate();
 
   const togglePlayerModal = () => {
     setIsPlayerModalOpen(!isPlayerModalOpen);
@@ -66,6 +68,10 @@ export const AdminPages = () => {
     }
   };
 
+  const handleGenerateTournament = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     const fetchTeams = async () => {
       const response = await fetch("http://localhost:5000/api/teams");
@@ -86,7 +92,9 @@ export const AdminPages = () => {
           <div className={styles.main__Button}>
             <button onClick={togglePlayerModal}>ADD PLAYER</button>
             <button onClick={toggleTeamModal}>ADD TEAM</button>
-            <button>GENERATE TOURNAMENT</button>
+            <button onClick={handleGenerateTournament}>
+              GENERATE TOURNAMENT
+            </button>
           </div>
 
           {isPlayerModalOpen && (

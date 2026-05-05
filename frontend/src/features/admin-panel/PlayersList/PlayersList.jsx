@@ -6,7 +6,6 @@ export const PlayersList = (props) => {
   return (
     <div className={styles.playersList}>
       <div className={styles.playersList__Header}>
-        <h1>ID</h1>
         <h1>Nickname</h1>
         <h1>Team</h1>
       </div>
@@ -14,7 +13,6 @@ export const PlayersList = (props) => {
         {players && players.length > 0 ? (
           players.map((player) => (
             <div key={player.id} className={styles.PlayersRow}>
-              <h1>{player.id}</h1>
               <h1>{player.nickname}</h1>
               <h1>{player.teamName}</h1>
             </div>

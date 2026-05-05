@@ -2,20 +2,18 @@ import { Header } from "../../widgets/header/Header";
 import { MatchCard } from "../../entities/match/MatchCard";
 import { MatchCardEmpty } from "../../entities/matchempty/MatchCardEmpty";
 import styles from "./Main.module.scss";
-
-const allTeams = [
-  { name: "NAVI", players: [1, 2, 3, 4, 5] },
-  { name: "G2", players: [1, 2, 3, 4, 5] },
-  { name: "NAVI", players: [1, 2, 3, 4, 5] },
-  { name: "G2", players: [1, 2, 3, 4, 5] },
-];
-
-const filteredTeams = allTeams.filter((team) => team.players.length === 5);
-const power = Math.floor(Math.log2(filteredTeams.length));
-const limit = Math.pow(2, power);
-const participants = filteredTeams.slice(0, limit);
+import { useState } from "react";
+import { useEffect } from "react";
 
 export const Main = () => {
+  const [teams, setTeams] = useState([]);
+
+  const filteredTeams = teams.filter((team) => team.players.length === 5);
+  const power =
+    filteredTeams.length > 0 ? Math.floor(Math.log2(filteredTeams.length)) : 0;
+  const limit = Math.pow(2, power);
+  const participants = filteredTeams.slice(0, limit);
+
   const rounds = Array.from({ length: power + 1 }, (_, roundIndex) => {
     const matchesInRound = Math.floor(limit / Math.pow(2, roundIndex));
     const roundMatches = [];
@@ -35,6 +33,13 @@ export const Main = () => {
     }
     return roundMatches;
   });
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/generate-tournament")
+      .then((res) => res.json())
+      .then((data) => setTeams(data))
+      .catch((err) => console.error("Błąd ładowania: ", err));
+  }, []);
 
   return (
     <div className={styles.page}>
@@ -86,6 +91,11 @@ export const Main = () => {
           );
         })}
       </main>
+      <div className={styles.simulationButton}>
+        <button className={styles.simulationButton__button}>
+          Symulacja meczu
+        </button>
+      </div>
     </div>
   );
 };

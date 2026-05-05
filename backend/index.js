@@ -110,6 +110,27 @@ app.get("/api/players", async (req, res) => {
   }
 });
 
+app.get("/api/generate-tournament", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT t.name, COUNT(p.id) AS player_count from Teams t LEFT JOIN Players p ON t.id = p.team_id GROUP BY t.id HAVING COUNT(p.id) = 5",
+    );
+
+    let teams = result.rows;
+
+    teams = teams.sort(() => Math.random() - 0.5);
+
+    const formattedTeams = teams.map((team) => ({
+      name: team.name,
+      players: new Array(parseInt(team.player_count)).fill(1),
+    }));
+
+    res.json(formattedTeams);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`The server took off on the port ${PORT}`);
 });

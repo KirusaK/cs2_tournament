@@ -1,3 +1,5 @@
+@use "../../app//styles//variables.scss" as *;
+
 .page {
   min-height: 100vh;
 }
@@ -13,4 +15,19 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.simulationButton {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 70px;
+
+  &__button {
+    width: 500px;
+    height: 70px;
+    font-weight: 400;
+    font-size: 48px;
+    color: $color-text-main;
+    background-color: $color-green;
+  }
 }
