@@ -3,12 +3,22 @@ import { Modal, Button, Form } from "react-bootstrap";
 import styles from "./PlaterModalForm.module.scss";
 
 export const AddPlayerForm = (props) => {
-  const { onClose, onPlayerAdded } = props;
+  const { onClose, onPlayerAdded, teams } = props;
 
   const [nickname, setNickname] = useState("");
   const [teamName, setTeamName] = useState("");
 
   const handleAddPlayer = async () => {
+    const selectedTeam = teams.find(
+      (team) =>
+        team.name.trim().toLowerCase() === teamName.trim().toLowerCase(),
+    );
+
+    if (selectedTeam && parseInt(selectedTeam.player_count) >= 5) {
+      alert(`Error: Ta drużyna (${selectedTeam.name}) jest już pełna (5/5)!`);
+      return; // Прерываем функцию, запрос на бэкенд не уйдет
+    }
+
     const url = "http://localhost:5000/api/players";
 
     try {

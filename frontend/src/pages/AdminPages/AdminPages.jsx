@@ -104,6 +104,7 @@ export const AdminPages = () => {
                 fetchPlayers();
                 fetchTeams();
               }}
+              teams={teams}
             />
           )}
 

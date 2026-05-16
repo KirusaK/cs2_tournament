@@ -42,6 +42,9 @@ app.post("/api/teams", async (req, res) => {
 app.delete("/api/teams/:id", async (req, res) => {
   try {
     const { id } = req.params;
+
+    await pool.query("DELETE FROM Players WHERE team_id = $1", [id]);
+
     const deleteResult = await pool.query("DELETE FROM Teams WHERE id = $1", [
       id,
     ]);
