@@ -1,18 +1,15 @@
 import { Header } from "../../widgets/header/Header";
 import { MatchCard } from "../../entities/match/MatchCard";
-import { MatchCardEmpty } from "../../entities/matchempty/MatchCardEmpty";
 import styles from "./Main.module.scss";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const Main = () => {
   const [teams, setTeams] = useState([]);
   const [results, setResults] = useState({});
   const [isSimulating, setIsSimulating] = useState(false);
+  const cardRefs = useRef({});
 
-  // Данные для расчета сетки
   const filteredTeams = teams.filter((team) => team.players.length === 5);
-  // Чтобы сетка не пропадала, берем либо реальное кол-во, либо заглушку (например, 4)
   const count = filteredTeams.length > 0 ? filteredTeams.length : 4;
   const power = Math.floor(Math.log2(count));
   const limit = Math.pow(2, power);
@@ -38,7 +35,6 @@ export const Main = () => {
 
           const team1 = currentWinners[matchIndex * 2];
           const team2 = currentWinners[matchIndex * 2 + 1];
-          // Если команд вдруг нет (пустая сетка), ставим заглушку
           const winner =
             team1 && team2
               ? Math.random() < 0.5
@@ -59,7 +55,6 @@ export const Main = () => {
     })();
   };
 
-  // ГЕНЕРАЦИЯ РАУНДОВ (чтобы сетка была всегда)
   const rounds = [];
   for (let roundIndex = 0; roundIndex < power; roundIndex++) {
     const matchesInRound = Math.pow(2, power - roundIndex - 1);
@@ -67,21 +62,15 @@ export const Main = () => {
 
     for (let matchIndex = 0; matchIndex < matchesInRound; matchIndex++) {
       if (roundIndex === 0) {
-        // Первый раунд (четвертьфиналы или полуфиналы)
         roundMatches.push({
-          type: "match",
           team1: participants[matchIndex * 2] || { name: "Team 1" },
           team2: participants[matchIndex * 2 + 1] || { name: "Team 2" },
         });
       } else {
-        // Последующие раунды (берем из результатов предыдущего)
         const prevRound = roundIndex - 1;
         const winner1 = results[`${prevRound}-${matchIndex * 2}`];
         const winner2 = results[`${prevRound}-${matchIndex * 2 + 1}`];
-
         roundMatches.push({
-          type: "match",
-          // Если победителя еще нет, показываем NULL или ???
           team1: winner1 || { name: "NULL" },
           team2: winner2 || { name: "NULL" },
         });
@@ -90,7 +79,6 @@ export const Main = () => {
     rounds.push(roundMatches);
   }
 
-  // Финальный чемпион (самый правый блок)
   const ultimateWinner = results[`${power - 1}-0`];
 
   useEffect(() => {
@@ -100,53 +88,79 @@ export const Main = () => {
       .catch((err) => console.error("Błąd: ", err));
   }, []);
 
+  // Константы карточки
+  const CARD_HEIGHT = 232; // 70 + 92 + 70 (две команды + gap между ними)
+  const FIRST_GAP = 90; // gap между карточками в первой колонке
+  const COL_GAP = 130; // gap между колонками
+
+  const tops = [];
+
+  if (rounds.length > 0) {
+    // Первый раунд: просто сверху вниз
+    const firstTops = rounds[0].map((_, i) => i * (CARD_HEIGHT + FIRST_GAP));
+    tops.push(firstTops);
+
+    // Каждый следующий раунд: центр между верхней и нижней карточкой предыдущего
+    for (let r = 1; r < rounds.length; r++) {
+      const prevTops = tops[r - 1];
+      const currentTops = rounds[r].map((_, m) => {
+        const topCard = prevTops[m * 2];
+        const bottomCard = prevTops[m * 2 + 1];
+        // Середина верхней карточки и середина нижней
+        const topCardCenter = topCard + CARD_HEIGHT / 2;
+        const bottomCardCenter = bottomCard + CARD_HEIGHT / 2;
+        // Наша карточка должна быть по центру между ними
+        return (topCardCenter + bottomCardCenter) / 2 - CARD_HEIGHT / 2;
+      });
+      tops.push(currentTops);
+    }
+  }
+
+  const firstRoundCount = rounds[0]?.length || 0;
+  const containerHeight =
+    firstRoundCount > 0
+      ? (firstRoundCount - 1) * (CARD_HEIGHT + FIRST_GAP) + CARD_HEIGHT
+      : 0;
+
+  const winnerTop = containerHeight / 2 - 70 / 2; // 70 = высота одной строки winner
+
   return (
     <div className={styles.page}>
       <Header />
       <main className={styles.bracketContainer}>
-        {rounds.map((roundMatches, roundIndex) => {
-          const baseGap = 90;
-          const elementGap = baseGap * Math.pow(2, roundIndex) * 1.8;
+        <div style={{ position: "relative", height: `${containerHeight}px` }}>
+          {rounds.map((roundMatches, roundIndex) =>
+            roundMatches.map((match, matchIndex) => (
+              <div
+                key={`${roundIndex}-${matchIndex}`}
+                style={{
+                  position: "absolute",
+                  top: `${tops[roundIndex]?.[matchIndex] ?? 0}px`,
+                  left: `${roundIndex * (300 + COL_GAP)}px`,
+                }}
+              >
+                <MatchCard team1={match.team1} team2={match.team2} />
+              </div>
+            )),
+          )}
 
-          // Центрирование относительно первого столбца
-          const firstRoundHeight =
-            (Math.pow(2, power - 1) - 1) * (baseGap * 1.8) + 140;
-          const currentHeight = (roundMatches.length - 1) * elementGap + 140;
-          const centeringOffset = (firstRoundHeight - currentHeight) / 2;
-
-          return (
-            <div
-              key={roundIndex}
-              className={styles.column}
-              style={{
-                gap: `${elementGap}px`,
-                paddingTop: `${Math.max(0, centeringOffset)}px`,
-              }}
-            >
-              {roundMatches.map((match, matchIndex) => (
-                <MatchCard
-                  key={`${roundIndex}-${matchIndex}`}
-                  team1={match.team1}
-                  team2={match.team2}
-                />
-              ))}
-            </div>
-          );
-        })}
-
-        {/* Последняя колонка с Победителем */}
-        {/* Последняя колонка с Победителем */}
-        <div className={styles.column} style={{ justifyContent: "center" }}>
-          <div className={styles.winnerWrapper}>
-            <div className={styles.winnerLabel}>WINNER</div>
-            {/* Обертка карточки */}
-            <div className={styles.card}>
-              <div className={styles.teamRow}>
-                <div className={styles.team}>
-                  {ultimateWinner ? ultimateWinner.name : "NULL"}
+          {/* Winner */}
+          <div
+            style={{
+              position: "absolute",
+              left: `${rounds.length * (300 + COL_GAP)}px`,
+              top: `${winnerTop}px`,
+            }}
+          >
+            <div className={styles.winnerWrapper}>
+              {/* <div className={styles.winnerLabel}>WINNER</div> */}
+              <div className={styles.card}>
+                <div className={styles.teamRow}>
+                  <div className={styles.team}>
+                    {ultimateWinner ? ultimateWinner.name : "NULL"}
+                  </div>
+                  <div className={styles.score}></div>
                 </div>
-                {/* Зеленый блок для счета, как в MatchCard */}
-                <div className={styles.score}></div>
               </div>
             </div>
           </div>
