@@ -1,14 +1,17 @@
+// backend/index.js - основной файл сервера Express для управления командами, игроками и турнирами
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db/db");
 require("dotenv").config();
 
+// Инициализация Express-приложения
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
+// Роуты для управления командами и игроками
 app.get("/api/teams", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -25,6 +28,7 @@ app.get("/api/teams", async (req, res) => {
   }
 });
 
+// Роут для добавления новой команды
 app.post("/api/teams", async (req, res) => {
   try {
     const { name } = req.body;
@@ -39,6 +43,7 @@ app.post("/api/teams", async (req, res) => {
   }
 });
 
+// Роут для удаления команды по ID
 app.delete("/api/teams/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -60,6 +65,7 @@ app.delete("/api/teams/:id", async (req, res) => {
   }
 });
 
+// Роут для добавления нового игрока с проверкой лимита в 5 игроков на команду
 app.post("/api/players", async (req, res) => {
   try {
     const { nickname, teamName } = req.body;
@@ -101,6 +107,7 @@ app.post("/api/players", async (req, res) => {
   }
 });
 
+// Роут для получения всех игроков с их командами
 app.get("/api/players", async (req, res) => {
   try {
     const result = await pool.query(
@@ -113,6 +120,7 @@ app.get("/api/players", async (req, res) => {
   }
 });
 
+// Роут для генерации турнира на основе команд с полным составом (5 игроков)
 app.get("/api/generate-tournament", async (req, res) => {
   try {
     const result = await pool.query(
@@ -134,6 +142,7 @@ app.get("/api/generate-tournament", async (req, res) => {
   }
 });
 
+// Запуск сервера
 app.listen(PORT, () => {
   console.log(`The server took off on the port ${PORT}`);
 });

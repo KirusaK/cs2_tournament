@@ -5,10 +5,12 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import styles from "./AdminLogin.module.scss";
 
 export const AdminLogin = () => {
+  // State для хранения введенных имени пользователя и пароля
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // Обработчик отправки формы для проверки учетных данных и навигации к странице администрирования
   const handleLogin = (e) => {
     e.preventDefault();
 

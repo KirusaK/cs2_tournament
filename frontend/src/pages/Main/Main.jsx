@@ -4,11 +4,13 @@ import styles from "./Main.module.scss";
 import { useState, useEffect, useRef } from "react";
 
 export const Main = () => {
+  // State для команд, результатов и статуса симуляции
   const [teams, setTeams] = useState([]);
   const [results, setResults] = useState({});
   const [isSimulating, setIsSimulating] = useState(false);
   const cardRefs = useRef({});
 
+  // Фильтрация команд с 5 игроками и определение участников
   const filteredTeams = teams.filter((team) => team.players.length === 5);
   const count = filteredTeams.length > 0 ? filteredTeams.length : 4;
   const power = Math.floor(Math.log2(count));
@@ -16,6 +18,7 @@ export const Main = () => {
   const participants =
     filteredTeams.length >= limit ? filteredTeams.slice(0, limit) : [];
 
+  // Функция для симуляции турнира
   const simulateTournament = () => {
     if (isSimulating || participants.length === 0) return;
     setIsSimulating(true);
@@ -55,6 +58,7 @@ export const Main = () => {
     })();
   };
 
+  // Генерация структуры раундов и матчей на основе участников и результатов
   const rounds = [];
   for (let roundIndex = 0; roundIndex < power; roundIndex++) {
     const matchesInRound = Math.pow(2, power - roundIndex - 1);
@@ -81,6 +85,7 @@ export const Main = () => {
 
   const ultimateWinner = results[`${power - 1}-0`];
 
+  // Получение данных о командах при загрузке компонента
   useEffect(() => {
     fetch("http://localhost:5000/api/generate-tournament")
       .then((res) => res.json())
@@ -89,40 +94,38 @@ export const Main = () => {
   }, []);
 
   // Константы карточки
-  const CARD_HEIGHT = 232; // 70 + 92 + 70 (две команды + gap между ними)
-  const FIRST_GAP = 90; // gap между карточками в первой колонке
-  const COL_GAP = 130; // gap между колонками
+  const CARD_HEIGHT = 232;
+  const FIRST_GAP = 90;
+  const COL_GAP = 130;
 
   const tops = [];
 
+  // Вычисление вертикальных позиций для каждой карточки в каждом раунде
   if (rounds.length > 0) {
-    // Первый раунд: просто сверху вниз
     const firstTops = rounds[0].map((_, i) => i * (CARD_HEIGHT + FIRST_GAP));
     tops.push(firstTops);
 
-    // Каждый следующий раунд: центр между верхней и нижней карточкой предыдущего
     for (let r = 1; r < rounds.length; r++) {
       const prevTops = tops[r - 1];
       const currentTops = rounds[r].map((_, m) => {
         const topCard = prevTops[m * 2];
         const bottomCard = prevTops[m * 2 + 1];
-        // Середина верхней карточки и середина нижней
         const topCardCenter = topCard + CARD_HEIGHT / 2;
         const bottomCardCenter = bottomCard + CARD_HEIGHT / 2;
-        // Наша карточка должна быть по центру между ними
         return (topCardCenter + bottomCardCenter) / 2 - CARD_HEIGHT / 2;
       });
       tops.push(currentTops);
     }
   }
 
+  // Вычисление высоты контейнера для правильного позиционирования победителя
   const firstRoundCount = rounds[0]?.length || 0;
   const containerHeight =
     firstRoundCount > 0
       ? (firstRoundCount - 1) * (CARD_HEIGHT + FIRST_GAP) + CARD_HEIGHT
       : 0;
 
-  const winnerTop = containerHeight / 2 - 70 / 2; // 70 = высота одной строки winner
+  const winnerTop = containerHeight / 2 - 70 / 2;
 
   return (
     <div className={styles.page}>

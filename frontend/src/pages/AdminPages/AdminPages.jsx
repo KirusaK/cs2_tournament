@@ -8,21 +8,26 @@ import { AddTeamsForm } from "../../features/admin-panel/AddTeamsForm/AddTeamsFo
 import styles from "./AdminPages.module.scss";
 
 export const AdminPages = () => {
+  // State для управления модальными окнами, командами и игроками
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [teams, setTeams] = useState(null);
   const [players, setPlayers] = useState([]);
 
+  // Хук для навигации между страницами
   const navigate = useNavigate();
 
+  // Функции для открытия и закрытия модальных окон
   const togglePlayerModal = () => {
     setIsPlayerModalOpen(!isPlayerModalOpen);
   };
 
+  // Функция для открытия и закрытия модального окна добавления команды
   const toggleTeamModal = () => {
     setIsTeamModalOpen(!isTeamModalOpen);
   };
 
+  // Функция для загрузки данных о игроках с сервера
   const fetchPlayers = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/players");
@@ -33,6 +38,7 @@ export const AdminPages = () => {
     }
   };
 
+  // Функция для загрузки данных о командах с сервера
   const fetchTeams = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/teams");
@@ -43,6 +49,7 @@ export const AdminPages = () => {
     }
   };
 
+  // Функция для удаления команды с сервера
   const deleteTeam = async (id) => {
     const confirmDelete = window.confirm(
       "Czy na pewno chcesz usunąć tę komendę?",
@@ -68,10 +75,12 @@ export const AdminPages = () => {
     }
   };
 
+  // Функция для генерации турнира и перехода на страницу с результатами
   const handleGenerateTournament = () => {
     navigate("/");
   };
 
+  // Функция для симуляции турнира (можно вызвать при генерации турнира)
   useEffect(() => {
     const fetchTeams = async () => {
       const response = await fetch("http://localhost:5000/api/teams");

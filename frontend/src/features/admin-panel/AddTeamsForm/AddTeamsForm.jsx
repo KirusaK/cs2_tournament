@@ -3,10 +3,13 @@ import { Modal, Button, Form } from "react-bootstrap";
 import styles from "./TeamsModalForm.module.scss";
 
 export const AddTeamsForm = (props) => {
+  // State для хранения названия команды, которую пользователь вводит в форму
   const [teamName, setTeamName] = useState("");
 
+  // Деструктуризация пропсов для получения функций onClose и onTeamAdded, которые будут использоваться для закрытия модального окна и обновления списка команд после добавления новой команды
   const { onClose, onTeamAdded } = props;
 
+  // Функция для обработки добавления команды. Она отправляет POST-запрос на сервер с названием новой команды и, если запрос успешен, очищает поле ввода, вызывает функцию обновления списка команд и закрывает модальное окно
   const handleAddTeam = async () => {
     const url = "http://localhost:5000/api/teams";
     try {

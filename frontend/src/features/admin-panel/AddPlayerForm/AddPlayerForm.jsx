@@ -3,11 +3,14 @@ import { Modal, Button, Form } from "react-bootstrap";
 import styles from "./PlaterModalForm.module.scss";
 
 export const AddPlayerForm = (props) => {
+  // Получаем пропсы: onClose - функция для закрытия модального окна, onPlayerAdded - функция для обновления списка игроков после добавления, teams - массив существующих команд
   const { onClose, onPlayerAdded, teams } = props;
 
+  // Локальное состояние для хранения введенных данных
   const [nickname, setNickname] = useState("");
   const [teamName, setTeamName] = useState("");
 
+  // Функция для обработки добавления игрока
   const handleAddPlayer = async () => {
     const selectedTeam = teams.find(
       (team) =>
